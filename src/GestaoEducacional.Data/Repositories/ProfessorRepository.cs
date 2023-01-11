@@ -1,47 +1,40 @@
-﻿using System;
-using System.Linq;
-using GestaoEducacional.CC.Dto.DTOs;
-using GestaoEducacional.CC.Dto.Enums;
+﻿using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Data.Contexts;
 using GestaoEducacional.Domain.DTOs;
 using GestaoEducacional.Domain.Entities;
 using GestaoEducacional.Domain.Repositories;
-using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Data.Repositories;
 #nullable disable
-public class CursoRepository : ICursoRepository
+public class ProfessorRepository : IProfessorRepository
 {
-    private readonly ILogger<CursoRepository> _logger;
+    private readonly ILogger<ProfessorRepository> _logger;
     private readonly Context _context;
 
-    public CursoRepository(ILogger<CursoRepository> logger, Context context)
+    public ProfessorRepository(ILogger<ProfessorRepository> logger, Context context)
     {
         _logger = logger;
         _context = context;
     }
 
-    public async Task<List<CursoViewModel>> Get()
+    public async Task<List<ProfessorViewModel>> Get()
     {
         try
         {
-            var listaCursos = await _context.Cursos
-                .Include(c => c.Disciplina)
-                .Where(d => d.Disciplina.Curso == d.IdCurso)
-                .ToListAsync();
+            var listaProfessors = await _context.Professores.ToListAsync();
             
-            var listaCursosViewModel = new List<CursoViewModel>();
+            var listaProfessorsViewModel = new List<ProfessorViewModel>();
 
-            foreach (var curso in listaCursos)
+            foreach (var professor in listaProfessors)
             {
-                var CursoViewModel = CursoTransformation.GetViewModel(curso,listaCursos.Select(d => d.Disciplina).ToList());
-                listaCursosViewModel.Add(CursoViewModel);
+                var ProfessorViewModel = ProfessorTransformation.GetViewModel(professor);
+                listaProfessorsViewModel.Add(ProfessorViewModel);
             }
                 
-            return listaCursosViewModel;
+            return listaProfessorsViewModel;
         }
         catch (Exception ex)
         {
@@ -49,20 +42,18 @@ public class CursoRepository : ICursoRepository
         }
     }
 
-    public async Task<CursoViewModel> GetId(int id)
+    public async Task<ProfessorViewModel> GetId(int id)
     {
         try
         {
-            var listaCursos = await _context.Cursos
-                .Include(c => c.Disciplina)
-                .Where(d => d.Disciplina.Curso == d.IdCurso)
+            var listaProfessors = await _context.Professores
                 .ToListAsync();
 
-            var listaCursosViewModel = new List<CursoViewModel>();
-            var cursoConsulta = listaCursos.Where<Curso>(c => c.IdCurso == id).FirstOrDefault();
+            var listaProfessorsViewModel = new List<ProfessorViewModel>();
+            var professorConsulta = listaProfessors.Where<Professor>(c => c.IdProfessor == id).FirstOrDefault();
 
-            var CursosViewModel = CursoTransformation.GetViewModel(cursoConsulta, listaCursos.Select(d => d.Disciplina).ToList());
-            return CursosViewModel;
+            var professorsViewModel = ProfessorTransformation.GetViewModel(professorConsulta);
+            return professorsViewModel;
         }
         catch (Exception ex)
         {
@@ -70,14 +61,14 @@ public class CursoRepository : ICursoRepository
         }
     }
 
-    public async Task<bool> Post(CursoDto CursoDTO)
+    public async Task<bool> Post(ProfessorDto ProfessorDTO)
     {
         try
         {
-            var listaCursos = await _context.Cursos.ToListAsync();
-            var CursosDomain = CursoTransformation.GetDomain(CursoDTO);
+            var listaProfessors = await _context.Professores.ToListAsync();
+            var professorsDomain = ProfessorTransformation.GetDomain(ProfessorDTO);
 
-            await _context.Cursos.AddAsync(CursosDomain);
+            await _context.Professores.AddAsync(professorsDomain);
             var result = _context.SaveChangesAsync();
 
             if (result is null)
@@ -92,19 +83,19 @@ public class CursoRepository : ICursoRepository
         }
     }
 
-    public async Task<bool> Put(int id, CursoDto CursoDTO)
+    public async Task<bool> Put(int id, ProfessorDto professorDTO)
     {
         try
         {
-            var CursoBase = GetId(id);
-            if (CursoBase is null || CursoDTO.IdCurso != id)
+            var professorBase = GetId(id);
+            if (professorBase is null || professorDTO.IdProfessor != id)
             {
                 return false;
             }
             
-            var CursoUpdate = CursoTransformation.GetDomain(CursoDTO);
+            var ProfessorUpdate = ProfessorTransformation.GetDomain(professorDTO);
             _context.ChangeTracker.Clear();
-            _context.Cursos.Update(CursoUpdate);
+            _context.Professores.Update(ProfessorUpdate);
             var result = await _context.SaveChangesAsync();
             return true;
             
@@ -119,14 +110,14 @@ public class CursoRepository : ICursoRepository
     {
         try
         {
-            var listaCursos = await _context.Cursos.ToListAsync();
-            var CursoBase = listaCursos.Where<Curso>(v => v.IdCurso == id).FirstOrDefault();
-            if (CursoBase is null || CursoBase.IdCurso != id)
+            var listaProfessores = await _context.Professores.ToListAsync();
+            var professorBase = listaProfessores.Where<Professor>(v => v.IdProfessor == id).FirstOrDefault();
+            if (professorBase is null || professorBase.IdProfessor != id)
             {
                 return false;
             }
 
-            _context.Cursos.Remove(CursoBase);
+            _context.Professores.Remove(professorBase);
             var result = await _context.SaveChangesAsync();
             return true;
         }
@@ -136,4 +127,3 @@ public class CursoRepository : ICursoRepository
         }
     }
 }
-

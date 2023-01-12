@@ -26,10 +26,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApiPayment.Data\GestaoEducacional.Data.csproj" />
-    <ProjectReference Include="..\ApiPayment.CC.Dto\GestaoEducacional.CC.Dto.csproj" />
+    <ProjectReference Include="..\GestaoEducacional.Data\GestaoEducacional.Data.csproj" />
+    <ProjectReference Include="..\GestaoEducacional.CC.Dto\GestaoEducacional.CC.Dto.csproj" />
     <ProjectReference Include="..\GestaoEducacional.Domain\GestaoEducacional.Domain.csproj" />
   </ItemGroup>
 </Project>

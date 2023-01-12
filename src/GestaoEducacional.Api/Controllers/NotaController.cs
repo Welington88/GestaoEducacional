@@ -58,6 +58,10 @@ public class NotaController : ControllerBase
         try
         {
             var viewModel = await _NotaService.GetId(id);
+            if (viewModel.Disciplina is null)
+            {
+                return NotFound("NotFound");
+            }
 
             _logger.LogInformation(1, "[API] [Nota] [GET] [SUCESSO].");
             return Ok(viewModel);

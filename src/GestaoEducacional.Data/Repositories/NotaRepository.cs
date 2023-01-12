@@ -2,6 +2,7 @@
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Data.Contexts;
 using GestaoEducacional.Domain.DTOs;
+using GestaoEducacional.Domain.Entities;
 using GestaoEducacional.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,26 +24,26 @@ public class NotaRepository : INotaRepository
     {
         try
         {
-            var listaNotas = await _context.Notas
-                .Include(a => a.Aluno)
-                .Where(a => a.MatriculaAluno == a.Aluno.MatriculaAluno)
-                .Include(d => d.Disciplina)
-                .Where(d => d.Disciplinas.IdDisciplina == d.Disciplina)
-                .ToListAsync();
-            
-            var listaAlunos = await _context.Alunos.Include(n => n.Nota)
-                .Where(n => n.Nota.Select(m => m.MatriculaAluno == n.MatriculaAluno).FirstOrDefault())
-                .ToListAsync();
+            var listaNotas =    from notas in _context.Set<Nota>()
+                                join alunos in _context.Set<Aluno>()
+                                    on notas.MatriculaAluno equals alunos.MatriculaAluno into grouping
+                                from alunos in grouping.DefaultIfEmpty()
+                                join disciplinas in _context.Set<Disciplina>()
+                                    on notas.Disciplina equals disciplinas.IdDisciplina into groupingDisplina
+                                from disciplinas in groupingDisplina.DefaultIfEmpty()
+                                select new { notas, alunos, disciplinas };
 
             var listaNotasViewModel = new List<NotaViewModel>();
 
-            foreach (var notas in listaNotas)
+            foreach (var notas in listaNotas.Select(s => s.notas).ToList())
             {
-                var NotasViewModel = NotaTransformation.GetViewModel(notas);
-                listaNotasViewModel.Add(NotasViewModel);
+                var notasViewModel = NotaTransformation.GetViewModel(notas,
+                            listaNotas.Select(s => s.alunos).ToList(),
+                            listaNotas.Select(s => s.disciplinas).ToList());
+                listaNotasViewModel.Add(notasViewModel);
             }
                 
-            return listaNotasViewModel;
+            return await Task.FromResult(listaNotasViewModel);
         }
         catch (Exception ex)
         {
@@ -54,16 +55,26 @@ public class NotaRepository : INotaRepository
     {
         try
         {
-            var nota = await _context.Notas
-                .Include(a => a.Aluno)
-                .Where(a => a.MatriculaAluno == a.Aluno.MatriculaAluno)
-                .Include(d => d.Disciplina)
-                .Where(d => d.Disciplinas.IdDisciplina == d.Disciplina)
-                .Where(d => d.IdNota == id)
-                .ToListAsync();
+            var notasBase = await _context.Notas.Where(n => n.IdNota == id).ToListAsync();
+            if (notasBase.Count == 0)
+            {
+                return new NotaViewModel();
+            }
+            
+            var listaNotas = from notas in _context.Set<Nota>()
+                             join alunos in _context.Set<Aluno>()
+                                 on notas.MatriculaAluno equals alunos.MatriculaAluno into grouping
+                             from alunos in grouping.DefaultIfEmpty()
+                             join disciplinas in _context.Set<Disciplina>()
+                                 on notas.Disciplina equals disciplinas.IdDisciplina into groupingDisplina
+                             from disciplinas in groupingDisplina.DefaultIfEmpty()
+                             where notas.IdNota == id
+                             select new { notas, alunos, disciplinas };
 
-            var NotasViewModel = NotaTransformation.GetViewModel(nota.FirstOrDefault());
-            return NotasViewModel;
+            var notasViewModel = NotaTransformation.GetViewModel(listaNotas.Select(s => s.notas).ToList().Where(n => n.IdNota == id).FirstOrDefault(),
+                            listaNotas.Select(s => s.alunos).ToList(),
+                            listaNotas.Select(s => s.disciplinas).ToList());
+            return await Task.FromResult(notasViewModel);
         }
         catch (Exception ex)
         {

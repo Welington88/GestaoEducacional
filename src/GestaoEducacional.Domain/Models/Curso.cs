@@ -1,20 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using GestaoEducacional.Domain.Entities.Base;
 
 namespace GestaoEducacional.Domain.Entities;
 #nullable disable
-public class Aluno : Entity<Aluno>
+public class Curso : Entity<Curso>
 {
-    [Key]
-    public int MatriculaAluno { get; set; }
+	[Key]
+	public int IdCurso { get; set; }
 
-    public string Nome { get; set; }
-
-    public DateTime DataNascimento { get; set; }
-
-    public virtual ICollection<Nota> Nota { get; set; }
-    
-    [JsonIgnore]
+    [Required]
+    [StringLength(50)]
+    public string DescricaoCurso { get; set; }
+	
+	[JsonIgnore]
+	[NotMapped]
     public virtual ICollection<Disciplina> Disciplina { get; set; }
+	
 }
+

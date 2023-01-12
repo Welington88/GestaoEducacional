@@ -59,6 +59,11 @@ public class DisciplinaController : ControllerBase
         {
             var viewModel = await _DisciplinaService.GetId(id);
 
+            if (viewModel.DescricaoDisciplina is null)
+            {
+                return NotFound("NotFound");
+            }
+
             _logger.LogInformation(1, "[API] [Disciplina] [GET] [SUCESSO].");
             return Ok(viewModel);
         }

@@ -8,9 +8,11 @@ public class DisciplinaViewModel
 
     public string DescricaoDisciplina { get; set; }
 
-    public List<string> Alunos { get; set; }
-
     public string Professor { get; set; }
 
     public string Curso { get; set; }
+
+    public int QuantidadeAlunos { get; set; }
+
+    public List<NotaDisciplinaViewModel> Alunos { get; set; }
 }

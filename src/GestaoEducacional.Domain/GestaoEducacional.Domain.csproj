@@ -8,14 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Entities\" />
     <None Remove="Repositories\" />
     <None Remove="DTOs\" />
     <None Remove="Entities\Base\" />
     <None Remove="Repositories\Base\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Repositories\" />
     <Folder Include="DTOs\" />
     <Folder Include="Entities\Base\" />

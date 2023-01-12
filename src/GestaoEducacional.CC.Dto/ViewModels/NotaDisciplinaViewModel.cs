@@ -1,11 +1,10 @@
 ﻿using System;
-using System;
 
 namespace GestaoEducacional.CC.Dto.ViewModels;
 #nullable disable
-public class NotaAlunoViewModel
+public class NotaDisciplinaViewModel
 {
-    public string Disciplina { get; set; }
+    public string NomeAluno { get; set; }
 
     public float ValorNota { get; set; }
 }

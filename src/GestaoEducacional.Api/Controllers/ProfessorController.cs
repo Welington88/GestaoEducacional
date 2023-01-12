@@ -59,6 +59,10 @@ public class ProfessorController : ControllerBase
         try
         {
             var viewModel = await _ProfessorService.GetId(id);
+            if (viewModel.Nome is null)
+            {
+                return NotFound("NotFound");
+            }
 
             _logger.LogInformation(1, "[API] [Professor] [GET] [SUCESSO].");
             return Ok(viewModel);

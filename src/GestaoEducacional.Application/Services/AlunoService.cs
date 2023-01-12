@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class AlunoService : IAlunoService
+public class AlunoService : Hub , IAlunoService
 {
 
     private readonly IConfiguration _configuration;
@@ -91,5 +92,11 @@ public class AlunoService : IAlunoService
         {
             throw new Exception(ex.Message);
         }
+    }
+
+    public async IAsyncEnumerable<DateTime> Streaming(CancellationToken cancellationToken) {
+        await Task.Delay(100000000, cancellationToken);
+        yield return DateTime.Now;
+
     }
 }

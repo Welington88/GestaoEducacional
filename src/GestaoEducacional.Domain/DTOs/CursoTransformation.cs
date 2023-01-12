@@ -17,22 +17,38 @@ public static class CursoTransformation
 		return domain;
 	}
 
-    public static CursoViewModel GetViewModel(Curso domain, List<Disciplina> disciplinas) {
+    public static CursoViewModel GetViewModel(Curso domain, List<Disciplina> disciplinas, CursoAlunoDto cursoAlunoDto) {
 
         var listaDisciplinasViewModel = new List<string>();
-
-        foreach (var disciplina in disciplinas)
+        disciplinas = disciplinas.Where(d => d.IdCurso == domain.IdCurso).ToList();
+        if (disciplinas.Count >0)
         {
-            listaDisciplinasViewModel.Add(disciplina.DescricaoDisciplina);
+            foreach (var disciplina in disciplinas)
+            {
+                if (!(disciplina is null))
+                {
+                    listaDisciplinasViewModel.Add($"{disciplina.IdDisciplina} - {disciplina.DescricaoDisciplina}");
+                }
+            }
+
+            var viewModel = new CursoViewModel()
+            {
+                IdCurso = domain.IdCurso,
+                DescricaoCurso = domain.DescricaoCurso,
+                NumeroProfessores = cursoAlunoDto.QtdProfessores,
+                NumeroAlunos = cursoAlunoDto.QtdAlunos,
+                MediaCurso = cursoAlunoDto.MediaAlunos,
+                Disciplinas = listaDisciplinasViewModel
+                
+            };
+
+            return viewModel;
         }
-
-        var viewModel = new CursoViewModel() {
-			IdCurso = domain.IdCurso,
-            DescricaoCurso = domain.DescricaoCurso,
-            Disciplinas = listaDisciplinasViewModel
-		};
-
-		return viewModel;
+        else
+        {
+            return new CursoViewModel();
+        }
+        
 	}
 }
 

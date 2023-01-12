@@ -10,7 +10,7 @@ public class AlunoViewModel
 
     public DateTime DataNascimento { get; set; }
 
-    public List<NotaViewModel> Notas { get; set; }
+    public List<NotaAlunoViewModel> Notas { get; set; }
 
 }
 

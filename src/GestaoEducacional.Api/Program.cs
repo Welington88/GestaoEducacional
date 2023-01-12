@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using GestaoEducacional.Api.Configurations;
+using GestaoEducacional.Application.Services;
 using GestaoEducacional.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -34,7 +35,15 @@ builder.Services.AddSwaggerGen(c =>{
         c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
+
+app.MapHub<AlunoService>("/servicealuno");
+app.MapHub<CursoService>("/servicecurso");
+app.MapHub<DisciplinaService>("/servicedisciplina");
+app.MapHub<NotaService>("/servicenota");
+app.MapHub<ProfessorService>("/serviceprofessor");
 
 app.UseSwagger();
 

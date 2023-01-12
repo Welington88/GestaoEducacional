@@ -19,13 +19,16 @@ public static class NotaTransformation
 		return domain;
 	}
 
-    public static NotaViewModel GetViewModel(Nota domain) {
+    public static NotaViewModel GetViewModel(Nota domain,List<Aluno> alunos, List<Disciplina> disciplinas) {
+
+        var aluno = alunos.Where(a => a.MatriculaAluno == domain.MatriculaAluno).FirstOrDefault();
+        var disciplina = disciplinas.Where(d => d.IdDisciplina == domain.Disciplina).FirstOrDefault();
 
         var viewModel = new NotaViewModel() {
             IdNota = domain.IdNota,
             ValorNota = domain.ValorNota,
-            Disciplina = domain.Disciplinas.DescricaoDisciplina,
-            Aluno = $"Matricula: {domain.Aluno.MatriculaAluno} - Nome: {domain.Aluno.Nome}"
+            Disciplina = $"{disciplina.IdDisciplina} - {disciplina.DescricaoDisciplina}",
+            Aluno = $" {aluno.MatriculaAluno} - {aluno.Nome}"
 		};
 
 		return viewModel;

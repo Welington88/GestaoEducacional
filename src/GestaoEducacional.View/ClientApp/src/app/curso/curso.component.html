@@ -1,0 +1,59 @@
+<h1>Cursos</h1><br/>
+<hr/>
+<section>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-10">
+            <h2>{{formLabel}}</h2><br/>
+            <form (ngSubmit)="submit()" #formDir="ngForm" [formGroup]= "form">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-1">Nome: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <input class="form-control" type="text" formControlName= "descricaoCurso" required>
+                            <div *ngIf="descricaoCurso.invalid && formDir.submitted" class="validation-error">
+                                <p *ngIf="descricaoCurso.errors?.['required']">o nome é obrigatório. </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer col-xs-12 col-sm-3">
+                        <button type="submit" class="btn btn-primary" (onSubmit)="send($event)">Salvar</button>&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</section>
+<hr/>
+<table class='table table-striped table-bordered table-condensed table-hover' *ngIf="cursos.length">
+    <thead class="thead-dark">
+        <tr class="table-light">
+            <td scope="col">Código Curso</td>
+            <td scope="col">Descrição Curso</td>
+            <td scope="col">Quantidade de Professores</td>
+            <td scope="col">Quantidade de Alunos</td>
+            <td scope="col">Média dos Alunos</td>
+            <td scope="col">Disciplinas</td>
+            <td scope="col">Editar Curso</td>
+            <td scope="col">Excluir Excluir</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = 'let curso of cursos;'>
+            <td class="align-middle" scope="row"> {{curso.idCurso}}</td>
+            <td class="align-middle" scope="row"> {{curso.descricaoCurso}}</td>
+            <td class="align-middle" scope="row"> {{curso.numeroProfessores}}</td>
+            <td class="align-middle" scope="row"> {{curso.numeroAlunos}}</td>
+            <td class="align-middle" scope="row"> {{curso.mediaCurso}}</td>
+            <td class="align-middle" scope="row"> 
+                <div *ngFor = 'let disciplina of curso.disciplinas;'>
+                    {{disciplina}}
+                </div>
+            </td>
+            <td class="align-middle" scope="row"><button class="btn btn btn-success" (click)="edit(curso)">Editar</button>&nbsp;&nbsp; </td>
+            <td class="align-middle" scope="row"><button class="btn btn-danger" (click)="delete(curso)">Delete</button>&nbsp;&nbsp; </td>
+        </tr>
+    </tbody>
+</table>
+<br/>       

@@ -1,0 +1,70 @@
+<h1>Nota</h1><br/>
+<hr/>
+<section>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-10">
+            <h2>{{formLabel}}</h2><br/>
+            <form (ngSubmit)="submit()" #formDir="ngForm" [formGroup]= "form">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Aluno: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <select class="form-control form-select" id="aluno" formControlName="aluno"> 
+                                <option *ngFor="let aluno of alunos" [value]="aluno.nome">{{ aluno.nome }}</option> 
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Disciplina: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <select class="form-control form-select" id="disciplina" formControlName="disciplina"> 
+                                <option *ngFor="let disciplina of disciplinas" [value]="disciplina.descricaoDisciplina">{{ disciplina.descricaoDisciplina }}</option> 
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Valor da Nota: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <input class="form-control" type="number" formControlName= "valorNota" required>
+                            <div *ngIf="valorNota.invalid && formDir.submitted" class="validation-error">
+                                <p *ngIf="valorNota.errors?.['required']">o Valor é obrigatório. </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer col-xs-12 col-sm-3">
+                        <button type="submit" class="btn btn-primary" (onSubmit)="send($event)">Salvar</button>&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</section>
+<hr/>
+<table class='table table-striped table-bordered table-condensed table-hover' *ngIf="disciplinas.length">
+    <thead class="thead-dark">
+        <tr class="table-light">
+            <td scope="col">Id Disciplina</td>
+            <td scope="col">Nome Aluno</td>
+            <td scope="col">Curso => Disciplina do Curso</td>
+            <td scope="col">Valor da Nota</td>
+            <td scope="col">Editar Aluno</td>
+            <td scope="col">Excluir Aluno</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = 'let nota of notas;'>
+            <td class="align-middle" scope="row"> {{nota.idNota}}</td>
+            <td class="align-middle" scope="row"> {{nota.aluno.nome}}</td>
+            <td class="align-middle" scope="row"> {{nota.disciplina.descricaoDisciplina}}</td>
+            <td class="align-middle" scope="row"> {{nota.valorNota}}</td>
+            <td class="align-middle" scope="row"><button class="btn btn btn-success" (click)="edit(nota)">Editar</button>&nbsp;&nbsp; </td>
+            <td class="align-middle" scope="row"><button class="btn btn-danger" (click)="delete(nota)">Delete</button>&nbsp;&nbsp; </td>
+        </tr>
+    </tbody>
+</table>
+<br/>

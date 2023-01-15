@@ -1,0 +1,72 @@
+<h1>Disciplina</h1><br/>
+<hr/>
+<section>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-10">
+            <h2>{{formLabel}}</h2><br/>
+            <form (ngSubmit)="submit()" #formDir="ngForm" [formGroup]= "form">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Descrição Disciplina: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <input class="form-control" type="text" formControlName= "descricaoDisciplina" required>
+                            <div *ngIf="descricaoDisciplina.invalid && formDir.submitted" class="validation-error">
+                                <p *ngIf="descricaoDisciplina.errors?.['required']">o Descrição Disciplina é obrigatório. </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Curso: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <select class="form-control form-select" id="curso" formControlName="curso"> 
+                                <option *ngFor="let curso of cursos" [value]="curso.descricaoCurso">{{ curso.descricaoCurso }}</option> 
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Professor: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <select class="form-control form-select" id="professor" formControlName="professor"> 
+                                <option *ngFor="let professor of professores" [value]="professor.nome">{{ professor.nome }}</option> 
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-footer col-xs-12 col-sm-3">
+                        <button type="submit" class="btn btn-primary" (onSubmit)="send($event)">Salvar</button>&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</section>
+<hr/>
+<table class='table table-striped table-bordered table-condensed table-hover' *ngIf="disciplinas.length">
+    <thead class="thead-dark">
+        <tr class="table-light">
+            <td scope="col">Id Disciplina</td>
+            <td scope="col">Descrição Disciplina</td>
+            <td scope="col">Quantidade Alunos</td>
+            <td scope="col">Curso</td>
+            <td scope="col">Professor</td>
+            <td scope="col">Editar Aluno</td>
+            <td scope="col">Excluir Aluno</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = 'let disciplina of disciplinas;'>
+            <td class="align-middle" scope="row"> {{disciplina.idDisciplina}}</td>
+            <td class="align-middle" scope="row"> {{disciplina.descricaoDisciplina}}</td>
+            <td class="align-middle" scope="row"> {{disciplina.quantidadeAlunos}}</td>
+            <td class="align-middle" scope="row"> {{disciplina.curso.descricaoCurso}}</td>
+            <td class="align-middle" scope="row"> {{disciplina.professor.nome}}</td>
+            <td class="align-middle" scope="row"><button class="btn btn btn-success" (click)="edit(disciplina)">Editar</button>&nbsp;&nbsp; </td>
+            <td class="align-middle" scope="row"><button class="btn btn-danger" (click)="delete(disciplina)">Delete</button>&nbsp;&nbsp; </td>
+        </tr>
+    </tbody>
+</table>
+<br/>

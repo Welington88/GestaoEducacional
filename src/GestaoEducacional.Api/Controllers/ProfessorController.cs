@@ -29,7 +29,7 @@ public class ProfessorController : ControllerBase
     [SwaggerResponse(400, @"Erro ao retornar dados.")]
     [SwaggerResponse(500, @"Erro")]
     [Route("Lista")]
-    public async Task<ActionResult> ListaTodasAsProfessors()
+    public async Task<ActionResult> ListaTodasOsProfessors()
     {
         try
         {

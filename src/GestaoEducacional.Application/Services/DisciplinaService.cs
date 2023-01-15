@@ -27,6 +27,7 @@ public class DisciplinaService : Hub, IDisciplinaService
         try
         {
             var listaDisciplinas = await _repository.Get();
+            listaDisciplinas = listaDisciplinas.OrderBy(d => d.DescricaoDisciplina ).ToList();
             return listaDisciplinas;
         }
         catch (Exception ex)
@@ -57,8 +58,9 @@ public class DisciplinaService : Hub, IDisciplinaService
                 return false;
             }
 
-             var Disciplina = await _repository.Post(disciplinaDTO);
-             return Disciplina;
+            disciplinaDTO.DescricaoDisciplina = disciplinaDTO.DescricaoDisciplina.Trim();
+            var Disciplina = await _repository.Post(disciplinaDTO);
+            return Disciplina;
         }
         catch (Exception ex)
         {
@@ -70,7 +72,7 @@ public class DisciplinaService : Hub, IDisciplinaService
     {
         try
         {
-        
+             disciplinaDTO.DescricaoDisciplina = disciplinaDTO.DescricaoDisciplina.Trim();
             var disciplina = await _repository.Put(id, disciplinaDTO);
             return disciplina;
             

@@ -113,7 +113,7 @@ public class CursoController : ControllerBase
     {
         try
         {
-            var CursoBanco = await _CursoService.GetId(id);
+            var cursoBanco = await _CursoService.GetId(id);
 
             var result = await _CursoService.Put(id, cursoDto);
             if (!result)

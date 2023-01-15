@@ -27,6 +27,7 @@ public class NotaService : Hub, INotaService
         try
         {
             var listaNotas = await _repository.Get();
+            listaNotas = listaNotas.OrderBy(n => n.Aluno.Nome).ToList();
             return listaNotas;
         }
         catch (Exception ex)
@@ -57,8 +58,13 @@ public class NotaService : Hub, INotaService
                 return false;
             }
 
-             var nota = await _repository.Post(notaDTO);
-             return nota;
+            if (notaDTO.ValorNota < 0)
+            {
+                return false;
+            }
+            
+            var nota = await _repository.Post(notaDTO);
+            return nota;
         }
         catch (Exception ex)
         {
@@ -70,7 +76,10 @@ public class NotaService : Hub, INotaService
     {
         try
         {
-        
+            if (notaDTO.ValorNota < 0)
+            {
+                return false;
+            }
             var nota = await _repository.Put(id, notaDTO);
             return nota;
             

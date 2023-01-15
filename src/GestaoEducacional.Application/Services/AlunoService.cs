@@ -27,6 +27,7 @@ public class AlunoService : Hub , IAlunoService
         try
         {
             var listaAlunos = await _repository.Get();
+            listaAlunos = listaAlunos.OrderBy(a => a.Nome).ToList();
             return listaAlunos;
         }
         catch (Exception ex)
@@ -56,9 +57,9 @@ public class AlunoService : Hub , IAlunoService
             {
                 return false;
             }
-
-             var Aluno = await _repository.Post(alunoDTO);
-             return Aluno;
+            alunoDTO.Nome = alunoDTO.Nome.Trim();
+            var Aluno = await _repository.Post(alunoDTO);
+            return Aluno;
         }
         catch (Exception ex)
         {
@@ -70,7 +71,7 @@ public class AlunoService : Hub , IAlunoService
     {
         try
         {
-        
+            alunoDTO.Nome = alunoDTO.Nome.Trim();
             var Aluno = await _repository.Put(matricula, alunoDTO);
             return Aluno;
             
@@ -92,11 +93,5 @@ public class AlunoService : Hub , IAlunoService
         {
             throw new Exception(ex.Message);
         }
-    }
-
-    public async IAsyncEnumerable<DateTime> Streaming(CancellationToken cancellationToken) {
-        await Task.Delay(100000000, cancellationToken);
-        yield return DateTime.Now;
-
     }
 }

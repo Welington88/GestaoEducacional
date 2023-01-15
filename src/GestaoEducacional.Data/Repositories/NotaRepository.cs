@@ -34,12 +34,13 @@ public class NotaRepository : INotaRepository
                                 select new { notas, alunos, disciplinas };
 
             var listaNotasViewModel = new List<NotaViewModel>();
-
+            var listaCursos = await _context.Cursos.ToListAsync();
             foreach (var notas in listaNotas.Select(s => s.notas).ToList())
             {
                 var notasViewModel = NotaTransformation.GetViewModel(notas,
                             listaNotas.Select(s => s.alunos).ToList(),
-                            listaNotas.Select(s => s.disciplinas).ToList());
+                            listaNotas.Select(s => s.disciplinas).ToList(),
+                            listaCursos);
                 listaNotasViewModel.Add(notasViewModel);
             }
                 
@@ -71,9 +72,13 @@ public class NotaRepository : INotaRepository
                              where notas.IdNota == id
                              select new { notas, alunos, disciplinas };
 
+            var listaCursos = await _context.Cursos.ToListAsync();
+
             var notasViewModel = NotaTransformation.GetViewModel(listaNotas.Select(s => s.notas).ToList().Where(n => n.IdNota == id).FirstOrDefault(),
                             listaNotas.Select(s => s.alunos).ToList(),
-                            listaNotas.Select(s => s.disciplinas).ToList());
+                            listaNotas.Select(s => s.disciplinas).ToList(),
+                            listaCursos);
+
             return await Task.FromResult(notasViewModel);
         }
         catch (Exception ex)

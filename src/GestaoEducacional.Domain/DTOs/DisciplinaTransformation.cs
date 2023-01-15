@@ -27,12 +27,11 @@ public static class DisciplinaTransformation
         {
             notas = notas.Where(n => n.Disciplina == domain.IdDisciplina).ToList();
 
+            notas = notas.Distinct().ToList();
             foreach (var nota in notas)
-            {        
-                notas = notas.Distinct().ToList();
-                
+            {
                 var aluno = alunos.Where(a => a.MatriculaAluno == nota.MatriculaAluno).FirstOrDefault();
-
+                
                 listaNotas.Add(
                     new NotaDisciplinaViewModel()
                     {
@@ -56,8 +55,8 @@ public static class DisciplinaTransformation
         var viewModel = new DisciplinaViewModel() {
 			IdDisciplina = domain.IdDisciplina,
             DescricaoDisciplina = domain.DescricaoDisciplina,
-            Curso = $"{curso.IdCurso} - {curso.DescricaoCurso}",
-            Professor = $"{professor.IdProfessor} - {professor.Nome}",
+            Curso = new CursoDisciplinaViewModel() { IdCurso = curso.IdCurso, DescricaoCurso = curso.DescricaoCurso },
+            Professor = new ProfessorDisciplinaViewModel() { IdProfessor = professor.IdProfessor, Nome = professor.Nome },
             QuantidadeAlunos = qtdAlunos,
             Alunos = listaNotas
 		};
@@ -65,4 +64,3 @@ public static class DisciplinaTransformation
 		return viewModel;
 	}
 }
-

@@ -27,6 +27,7 @@ public class ProfessorService : Hub, IProfessorService
         try
         {
             var listaProfessores = await _repository.Get();
+            listaProfessores = listaProfessores.OrderBy(p => p.Nome).ToList();
             return listaProfessores;
         }
         catch (Exception ex)
@@ -57,8 +58,9 @@ public class ProfessorService : Hub, IProfessorService
                 return false;
             }
 
-             var Professor = await _repository.Post(professorDTO);
-             return Professor;
+            professorDTO.Nome = professorDTO.Nome.Trim();
+            var Professor = await _repository.Post(professorDTO);
+            return Professor;
         }
         catch (Exception ex)
         {
@@ -70,7 +72,7 @@ public class ProfessorService : Hub, IProfessorService
     {
         try
         {
-        
+            professorDTO.Nome = professorDTO.Nome.Trim();
             var Professor = await _repository.Put(id, professorDTO);
             return Professor;
             

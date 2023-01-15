@@ -41,6 +41,8 @@ public static class AlunoTransformation
     public static AlunoViewModel GetViewModel(Aluno domain, List<Disciplina> disciplinas, List<Nota> notas) {
 
         var listaNotas = new List<NotaAlunoViewModel>();
+        disciplinas = disciplinas.Where(d => d is not null).ToList();
+        notas = notas.Where(n => n is not null).ToList();
         notas = notas.Where(n => n.MatriculaAluno == domain.MatriculaAluno).ToList();
         foreach (var n in notas)
         {

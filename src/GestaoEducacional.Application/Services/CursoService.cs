@@ -27,6 +27,7 @@ public class CursoService : Hub, ICursoService
         try
         {
             var listaCursos = await _repository.Get();
+            listaCursos = listaCursos.OrderBy(c => c.DescricaoCurso).ToList();
             return listaCursos;
         }
         catch (Exception ex)
@@ -57,8 +58,9 @@ public class CursoService : Hub, ICursoService
                 return false;
             }
 
-             var curso = await _repository.Post(cursoDTO);
-             return curso;
+            cursoDTO.DescricaoCurso = cursoDTO.DescricaoCurso.Trim();
+            var curso = await _repository.Post(cursoDTO);
+            return curso;
         }
         catch (Exception ex)
         {

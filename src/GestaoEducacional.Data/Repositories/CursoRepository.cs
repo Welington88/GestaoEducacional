@@ -71,9 +71,19 @@ public class CursoRepository : ICursoRepository
 
                 command = new CommandDefinition(queryProfessor, parameters);
                 var quantProfessores = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
-                quantCursoProfAluno.QtdProfessores = quantProfessores.QtdProfessores;
+                if (!(quantProfessores is null) && !(quantCursoProfAluno is null))
+                {
+                    quantCursoProfAluno.QtdProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
 
                 var cursoViewModel = CursoTransformation.GetViewModel(curso.cursos, listaCursos.Select(c => c.disciplinas).ToList(), quantCursoProfAluno);
+                if (!(quantProfessores is null))
+                {
+                    if (cursoViewModel.NumeroProfessores != quantProfessores.QtdProfessores)
+                    {
+                        cursoViewModel.NumeroProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                    }
+                }
                 var validarAdd = listaCursosViewModel.Where(c => c.IdCurso == cursoViewModel.IdCurso).ToList().Count();
                 if (validarAdd == 0)
                 {
@@ -140,9 +150,22 @@ public class CursoRepository : ICursoRepository
 
             command = new CommandDefinition(queryProfessor, parameters);
             var quantProfessores = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
-            quantCursoProfAluno.QtdProfessores = quantProfessores.QtdProfessores;
+            if (!(quantProfessores is null))
+            {
+                if (!(quantProfessores is null) && !(quantCursoProfAluno is null))
+                {
+                    quantCursoProfAluno.QtdProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
+            }
 
             var cursosViewModel = CursoTransformation.GetViewModel(curso.Select(c => c.cursos).FirstOrDefault(), curso.Select(d => d.disciplinas).ToList(), quantCursoProfAluno);
+            if (!(quantProfessores is null))
+            {
+                if (cursosViewModel.NumeroProfessores != quantProfessores.QtdProfessores && quantProfessores != null)
+                {
+                    cursosViewModel.NumeroProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
+            }
             return await Task.FromResult(cursosViewModel);
         }
         catch (Exception ex)

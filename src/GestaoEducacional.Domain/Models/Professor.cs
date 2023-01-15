@@ -10,10 +10,14 @@ public class Professor : Entity<Professor>
     [Key]
     public int IdProfessor { get; set; }
 
+    [Required]
+    [StringLength(50)]
     public string Nome { get; set; }
 
+    [Required]
     public DateTime DataNascimento { get; set; }
 
+    [Range(0,100)]
     public decimal Salario { get; set; }
 
     [JsonIgnore]

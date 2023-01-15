@@ -34,8 +34,8 @@ public class AlunoRepository : IAlunoRepository
                         select new { alunos, notas , disciplinas};
             
             var listaAlunosViewModel = new List<AlunoViewModel>();
-
-            foreach (var aluno in query.Select(q => q.alunos).ToList())
+            var listaAlunosDto = query.Select(q => q.alunos).ToList();
+            foreach (var aluno in listaAlunosDto)
             {
                 var alunoViewModel = AlunoTransformation.GetViewModel(aluno, query.Select(q => q.disciplinas).ToList() , query.Select(q => q.notas).ToList());
                 var validarLista = listaAlunosViewModel.Where(a => a.MatriculaAluno == alunoViewModel.MatriculaAluno).ToList().Count();
@@ -57,26 +57,21 @@ public class AlunoRepository : IAlunoRepository
     {
         try
         {
-            Aluno alunoConsulta;
             AlunoViewModel alunoViewModel;
-            var verificarNotasLancadas = await _context.Alunos
+            var alunoConsultaBanco = await _context.Alunos
                 .Where(a => a.MatriculaAluno == matricula)
                 .ToListAsync();
 
-            if (!(verificarNotasLancadas.Count == 0))
+            if (!(alunoConsultaBanco.Count == 0))
             {
-                if (!(verificarNotasLancadas.FirstOrDefault().Nota is null))
+                var notasLancadas = await _context.Notas.Where(n => n.MatriculaAluno == alunoConsultaBanco.FirstOrDefault().MatriculaAluno).ToListAsync();
+
+                if (!(notasLancadas.Count == 0))
                 {
-                    var listaAlunos = await _context.Alunos.Include(n => n.Nota)
-                    .Where(n => n.Nota.Select(e => e.MatriculaAluno == n.MatriculaAluno).FirstOrDefault())
-                    .Where(a => a.MatriculaAluno == matricula)
-                    .ToListAsync();
-
-                    alunoConsulta = listaAlunos.FirstOrDefault();
-
-                    alunoViewModel = AlunoTransformation.GetViewModel(alunoConsulta,
-                        alunoConsulta.Disciplina.ToList(),
-                        alunoConsulta.Nota.ToList()
+                    var disciplinaAlunos = await _context.Disciplinas.ToListAsync();
+                    alunoViewModel = AlunoTransformation.GetViewModel(alunoConsultaBanco.FirstOrDefault(),
+                        disciplinaAlunos,
+                        notasLancadas
                     );
                 }
                 else
@@ -84,11 +79,9 @@ public class AlunoRepository : IAlunoRepository
                     var listaAlunosSimples = await _context.Alunos
                     .Where(a => a.MatriculaAluno == matricula)
                     .ToListAsync();
-
-                    alunoConsulta = listaAlunosSimples.FirstOrDefault();
                     var listaNotas = new List<Nota>();
                     var listaDisciplina = new List<Disciplina>();
-                    alunoViewModel = AlunoTransformation.GetViewModel(alunoConsulta,
+                    alunoViewModel = AlunoTransformation.GetViewModel(alunoConsultaBanco.FirstOrDefault(),
                         listaDisciplina,
                         listaNotas
                     );

@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AlunoComponent } from './aluno/aluno.component';
 import { AlunoService } from './services/aluno.service';
 import { CursoComponent } from './curso/curso.component';
@@ -24,8 +22,6 @@ import { NotaComponent } from './nota/nota.component';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     AlunoComponent,
     CursoComponent,
     DisciplinaComponent,
@@ -43,9 +39,7 @@ import { NotaComponent } from './nota/nota.component';
       { path: 'curso', component: CursoComponent },
       { path: 'disciplina', component: DisciplinaComponent },
       { path: 'nota', component: NotaComponent },
-      { path: 'professor', component: ProfessorComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'professor', component: ProfessorComponent }
     ])
   ],
   providers: [AlunoService, CursoService, DisciplinaService, NotaService ,ProfessorService],

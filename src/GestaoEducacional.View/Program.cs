@@ -1,5 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
+//cors
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder => {
+    builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
+
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -14,9 +22,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseCors();
 
 app.MapControllerRoute(
     name: "default",

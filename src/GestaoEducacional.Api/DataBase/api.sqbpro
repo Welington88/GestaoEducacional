@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/welingtonmarquezini/Projects/GestaoEducacional/src/GestaoEducacional.Api/DataBase/api.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2076"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainNotas"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Alunos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="86"/><column index="2" value="121"/><column index="3" value="124"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Notas" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="43"/><column index="2" value="59"/><column index="3" value="86"/><column index="4" value="111"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (4,28,2),
+  (11,56,4),
+  (5,209,6),
+  (5,415,7),
+  (19,500,9),
+  (5,15,7),
+  (12,149,8),
+  (2,305,2),
+  (10,165,2),
+  (6,276,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (15,33,10),
+  (15,354,9),
+  (16,102,2),
+  (12,242,6),
+  (3,101,5),
+  (11,86,9),
+  (17,278,3),
+  (8,459,8),
+  (19,241,1),
+  (12,303,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (12,227,5),
+  (11,347,5),
+  (6,455,6),
+  (6,228,10),
+  (13,169,5),
+  (10,63,2),
+  (9,284,5),
+  (17,365,5),
+  (5,64,2),
+  (13,335,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (16,136,4),
+  (15,183,9),
+  (3,130,9),
+  (10,205,7),
+  (2,434,7),
+  (1,241,5),
+  (8,263,2),
+  (13,205,9),
+  (9,466,5),
+  (4,176,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,210,5),
+  (1,107,9),
+  (12,301,3),
+  (12,480,5),
+  (4,74,10),
+  (15,55,7),
+  (1,141,2),
+  (8,493,4),
+  (15,399,3),
+  (3,187,3);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (10,464,2),
+  (19,29,6),
+  (5,470,6),
+  (12,330,6),
+  (8,169,10),
+  (16,431,6),
+  (10,311,2),
+  (11,460,8),
+  (1,129,7),
+  (12,494,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (4,16,7),
+  (5,429,10),
+  (13,433,9),
+  (17,380,2),
+  (8,268,10),
+  (18,413,8),
+  (12,407,2),
+  (11,343,3),
+  (10,437,6),
+  (3,459,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (3,300,4),
+  (1,257,4),
+  (14,237,7),
+  (17,372,4),
+  (2,16,7),
+  (6,215,10),
+  (18,410,2),
+  (5,100,4),
+  (18,432,7),
+  (12,471,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,410,2),
+  (17,202,9),
+  (10,121,6),
+  (3,443,3),
+  (17,314,9),
+  (12,112,6),
+  (4,500,10),
+  (2,264,9),
+  (13,393,3),
+  (4,496,8);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,347,4),
+  (16,337,1),
+  (20,390,4),
+  (14,369,3),
+  (14,174,8),
+  (10,410,5),
+  (17,94,7),
+  (12,467,5),
+  (18,44,8),
+  (17,39,8);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (5,330,2),
+  (3,487,8),
+  (9,192,6),
+  (10,87,7),
+  (9,352,6),
+  (15,503,9),
+  (9,30,9),
+  (11,73,6),
+  (12,498,2),
+  (7,478,9);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (12,299,1),
+  (20,3,5),
+  (10,68,2),
+  (9,94,4),
+  (5,213,6),
+  (11,193,3),
+  (16,86,10),
+  (15,290,3),
+  (16,455,6),
+  (15,21,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,263,6),
+  (6,375,4),
+  (11,401,7),
+  (17,71,3),
+  (19,256,4),
+  (20,191,9),
+  (19,148,6),
+  (14,99,9),
+  (8,475,7),
+  (2,462,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (7,382,9),
+  (3,235,5),
+  (18,433,3),
+  (2,268,4),
+  (2,346,9),
+  (18,101,5),
+  (18,284,6),
+  (17,173,9),
+  (15,47,2),
+  (16,304,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (19,305,8),
+  (12,19,1),
+  (13,108,8),
+  (17,50,3),
+  (18,207,6),
+  (5,200,7),
+  (15,87,10),
+  (5,70,8),
+  (7,486,9),
+  (10,207,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,169,7),
+  (12,306,3),
+  (9,497,10),
+  (20,435,9),
+  (5,263,4),
+  (4,95,8),
+  (3,421,6),
+  (7,78,3),
+  (14,196,4),
+  (7,301,8);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (8,30,5),
+  (3,455,6),
+  (14,35,10),
+  (5,282,3),
+  (9,260,2),
+  (15,377,10),
+  (8,391,6),
+  (5,20,7),
+  (4,427,1),
+  (16,487,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (11,224,8),
+  (8,350,3),
+  (15,131,8),
+  (5,338,8),
+  (1,344,9),
+  (18,89,4),
+  (12,468,4),
+  (17,466,5),
+  (5,295,3),
+  (15,169,1);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (12,482,6),
+  (15,211,1),
+  (8,69,7),
+  (20,327,2),
+  (5,498,10),
+  (13,86,8),
+  (15,90,9),
+  (3,70,10),
+  (8,498,8),
+  (15,203,10);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,236,4),
+  (18,317,6),
+  (17,490,2),
+  (7,374,3),
+  (18,271,2),
+  (4,6,8),
+  (6,7,5),
+  (7,483,2),
+  (8,312,3),
+  (8,408,9);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,324,8),
+  (16,491,9),
+  (7,394,7),
+  (8,459,3),
+  (8,326,10),
+  (3,280,8),
+  (4,136,6),
+  (13,237,5),
+  (18,269,8),
+  (10,215,4);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (6,94,3),
+  (5,125,7),
+  (11,418,5),
+  (3,429,8),
+  (18,64,8),
+  (19,143,2),
+  (5,94,5),
+  (18,332,7),
+  (9,8,1),
+  (7,394,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,323,9),
+  (12,56,8),
+  (2,300,6),
+  (3,482,6),
+  (10,364,3),
+  (8,238,8),
+  (17,466,3),
+  (13,52,5),
+  (5,86,7),
+  (19,288,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (11,24,8),
+  (17,440,3),
+  (7,462,1),
+  (2,421,7),
+  (14,152,5),
+  (8,249,3),
+  (16,503,3),
+  (6,482,8),
+  (7,324,6),
+  (2,281,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (6,241,7),
+  (12,18,6),
+  (13,93,7),
+  (10,93,7),
+  (1,181,3),
+  (9,352,5),
+  (15,185,3),
+  (13,241,10),
+  (2,312,3),
+  (11,334,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (6,152,6),
+  (2,454,2),
+  (7,382,5),
+  (7,155,10),
+  (2,228,5),
+  (9,429,4),
+  (5,185,7),
+  (10,286,8),
+  (19,131,3),
+  (7,138,9);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,157,5),
+  (9,391,8),
+  (16,22,6),
+  (15,198,9),
+  (11,455,6),
+  (11,151,7),
+  (8,186,6),
+  (8,345,9),
+  (18,375,5),
+  (7,41,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (13,60,7),
+  (15,204,4),
+  (1,303,7),
+  (15,111,4),
+  (2,283,10),
+  (12,379,4),
+  (3,32,3),
+  (16,488,1),
+  (6,453,1),
+  (9,386,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (15,295,8),
+  (15,304,5),
+  (19,434,7),
+  (8,214,3),
+  (17,245,1),
+  (1,86,7),
+  (13,290,4),
+  (10,4,7),
+  (13,21,7),
+  (5,297,8);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,133,6),
+  (16,5,4),
+  (13,254,5),
+  (9,239,2),
+  (7,277,9),
+  (11,142,5),
+  (14,481,2),
+  (7,7,5),
+  (18,290,4),
+  (10,379,4);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,14,8),
+  (15,38,5),
+  (18,34,1),
+  (11,428,3),
+  (5,320,3),
+  (9,458,2),
+  (3,94,2),
+  (3,104,2),
+  (18,436,2),
+  (18,437,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (8,315,6),
+  (17,185,4),
+  (16,462,4),
+  (12,455,4),
+  (13,145,9),
+  (7,223,5),
+  (5,82,2),
+  (15,275,7),
+  (16,70,1),
+  (10,351,3);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (15,433,9),
+  (2,64,3),
+  (6,445,9),
+  (8,49,5),
+  (9,187,7),
+  (14,355,4),
+  (10,332,4),
+  (7,21,10),
+  (9,55,5),
+  (2,495,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (18,392,1),
+  (7,44,2),
+  (18,25,9),
+  (17,191,7),
+  (9,345,2),
+  (10,57,9),
+  (8,241,4),
+  (5,311,6),
+  (19,490,8),
+  (3,223,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (7,162,6),
+  (7,240,5),
+  (3,170,4),
+  (8,310,2),
+  (8,262,9),
+  (14,154,7),
+  (11,58,5),
+  (9,238,3),
+  (13,262,6),
+  (18,327,9);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (13,81,5),
+  (9,364,8),
+  (14,86,1),
+  (12,78,4),
+  (9,157,4),
+  (17,403,8),
+  (13,483,10),
+  (13,242,1),
+  (18,127,8),
+  (8,85,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (4,51,10),
+  (18,164,10),
+  (8,10,8),
+  (2,158,5),
+  (5,449,7),
+  (9,484,2),
+  (2,434,9),
+  (12,163,8),
+  (18,147,4),
+  (18,284,2);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (8,253,3),
+  (5,483,10),
+  (10,177,7),
+  (7,485,8),
+  (17,280,9),
+  (4,383,1),
+  (13,187,10),
+  (9,487,5),
+  (14,456,5),
+  (8,371,2);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (7,107,3),
+  (8,362,6),
+  (19,143,9),
+  (12,97,5),
+  (17,59,2),
+  (18,222,2),
+  (6,287,10),
+  (7,71,6),
+  (13,20,8),
+  (16,408,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (16,35,5),
+  (18,157,5),
+  (1,346,1),
+  (12,218,3),
+  (12,15,2),
+  (4,86,5),
+  (8,170,1),
+  (8,415,7),
+  (12,329,5),
+  (15,333,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,261,3),
+  (18,454,9),
+  (5,23,7),
+  (2,160,10),
+  (15,465,3),
+  (16,332,3),
+  (13,192,8),
+  (11,172,10),
+  (9,211,2),
+  (3,23,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (14,272,2),
+  (11,169,5),
+  (4,230,5),
+  (9,496,7),
+  (10,144,4),
+  (19,268,7),
+  (12,401,4),
+  (18,227,6),
+  (12,383,5),
+  (7,432,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (19,131,6),
+  (2,70,10),
+  (12,442,7),
+  (6,56,7),
+  (1,293,7),
+  (2,376,5),
+  (4,248,9),
+  (8,364,5),
+  (12,178,5),
+  (15,362,3);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (9,339,3),
+  (4,284,6),
+  (9,84,2),
+  (6,386,4),
+  (4,165,3),
+  (6,61,10),
+  (2,10,10),
+  (5,172,5),
+  (8,101,8),
+  (3,433,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (7,154,6),
+  (15,342,3),
+  (14,461,3),
+  (20,299,1),
+  (16,137,2),
+  (5,441,5),
+  (17,6,7),
+  (9,261,7),
+  (14,48,7),
+  (12,169,4);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (19,94,8),
+  (13,322,9),
+  (5,122,3),
+  (19,30,7),
+  (1,45,5),
+  (6,299,7),
+  (16,95,2),
+  (16,220,3),
+  (9,269,5),
+  (20,369,5);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (5,148,9),
+  (17,53,9),
+  (19,410,5),
+  (9,171,6),
+  (1,84,6),
+  (10,366,8),
+  (1,79,4),
+  (9,33,5),
+  (5,217,6),
+  (13,17,7);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (18,20,6),
+  (9,121,6),
+  (11,16,2),
+  (17,310,9),
+  (13,122,2),
+  (15,297,9),
+  (10,319,6),
+  (11,122,7),
+  (4,491,8),
+  (15,481,6);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (7,24,7),
+  (10,435,3),
+  (3,36,10),
+  (8,249,6),
+  (4,456,8),
+  (1,127,7),
+  (5,310,5),
+  (9,71,4),
+  (19,414,7),
+  (16,497,4);
+INSERT INTO `notas` (`disciplina`,`matriculaaluno`,`valornota`)
+VALUES
+  (1,280,10),
+  (8,247,3),
+  (3,451,3),
+  (18,350,8),
+  (15,131,2),
+  (18,281,6),
+  (10,93,1),
+  (19,182,5),
+  (3,360,9),
+  (8,279,3);
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

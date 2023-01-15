@@ -28,7 +28,7 @@ public class CursoController : ControllerBase
     [SwaggerResponse(400, @"Erro ao retornar dados.")]
     [SwaggerResponse(500, @"Erro")]
     [Route("Lista")]
-    public async Task<ActionResult> ListaTodasAsCursos()
+    public async Task<ActionResult> ListaTodasOsCursos()
     {
         try
         {
@@ -58,7 +58,10 @@ public class CursoController : ControllerBase
         try
         {
             var viewModel = await _CursoService.GetId(id);
-
+            if (viewModel.DescricaoCurso is null)
+            {
+                return NotFound("NotFound");
+            }
             _logger.LogInformation(1, "[API] [Curso] [GET] [SUCESSO].");
             return Ok(viewModel);
         }
@@ -110,7 +113,7 @@ public class CursoController : ControllerBase
     {
         try
         {
-            var CursoBanco = await _CursoService.GetId(id);
+            var cursoBanco = await _CursoService.GetId(id);
 
             var result = await _CursoService.Put(id, cursoDto);
             if (!result)

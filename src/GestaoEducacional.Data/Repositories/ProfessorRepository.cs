@@ -46,11 +46,15 @@ public class ProfessorRepository : IProfessorRepository
     {
         try
         {
-            var listaProfessors = await _context.Professores
+            var listaProfessores = await _context.Professores
                 .ToListAsync();
-
+            var professorBase = listaProfessores.Where(p => p.IdProfessor == id).ToList();
+            if (professorBase.Count == 0)
+            {
+                return new ProfessorViewModel();
+            }
             var listaProfessorsViewModel = new List<ProfessorViewModel>();
-            var professorConsulta = listaProfessors.Where<Professor>(c => c.IdProfessor == id).FirstOrDefault();
+            var professorConsulta = listaProfessores.Where<Professor>(c => c.IdProfessor == id).FirstOrDefault();
 
             var professorsViewModel = ProfessorTransformation.GetViewModel(professorConsulta);
             return professorsViewModel;
@@ -65,7 +69,6 @@ public class ProfessorRepository : IProfessorRepository
     {
         try
         {
-            var listaProfessors = await _context.Professores.ToListAsync();
             var professorsDomain = ProfessorTransformation.GetDomain(ProfessorDTO);
 
             await _context.Professores.AddAsync(professorsDomain);

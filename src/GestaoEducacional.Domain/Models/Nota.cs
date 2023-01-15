@@ -10,10 +10,13 @@ public class Nota : Entity<Nota>
     [Key]
     public int IdNota { get; set; }
 
+    [Required]
     public int Disciplina { get; set; }
-
+    [Required]
     public int MatriculaAluno { get; set; }
 
+    [Required]
+    [Column(TypeName = "decimal(10,2)")]
     public float ValorNota { get; set; }
 
     [JsonIgnore]

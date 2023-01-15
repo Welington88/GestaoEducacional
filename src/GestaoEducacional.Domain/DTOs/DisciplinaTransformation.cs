@@ -1,4 +1,5 @@
-﻿using GestaoEducacional.CC.Dto.DTOs;
+﻿using System.Net.Http.Headers;
+using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Entities;
 
@@ -19,27 +20,47 @@ public static class DisciplinaTransformation
 		return domain;
 	}
 
-    public static DisciplinaViewModel GetViewModel(Disciplina domain, Curso curso, Professor professor, List<Aluno> alunos) {
+    public static DisciplinaViewModel GetViewModel(Disciplina domain, Curso curso, Professor professor, List<Aluno> alunos, List<Nota> notas) {
+        var listaNotas = new List<NotaDisciplinaViewModel>();
 
-        var listaAlunosViewModel = new List<string>();
-        foreach (var item in alunos)
+        if (!(alunos is null) && (!(notas is null)))
         {
-            foreach (var nota in item.Nota)
+            notas = notas.Where(n => n.Disciplina == domain.IdDisciplina).ToList();
+
+            notas = notas.Distinct().ToList();
+            foreach (var nota in notas)
             {
-                var alunoViewModel = $"Matricula: {item.MatriculaAluno} - Nome :{item.Nome} - Disciplina : {nota.Disciplinas.DescricaoDisciplina} - Nota: {nota.ValorNota}";
-                listaAlunosViewModel.Add(alunoViewModel);
+                var aluno = alunos.Where(a => a.MatriculaAluno == nota.MatriculaAluno).FirstOrDefault();
+                
+                listaNotas.Add(
+                    new NotaDisciplinaViewModel()
+                    {
+                        NomeAluno = $"{aluno.MatriculaAluno} - {aluno.Nome}",
+                        ValorNota = nota.ValorNota
+                    }
+                );
             }
         }
 
+        var listaAlunos = notas.Where(q => q.Disciplina == domain.IdDisciplina).Distinct().ToList();
+        var listaAlunosDistindas = new List<Nota>();
+        foreach (var aluno in listaAlunos)
+        {
+            if (listaAlunosDistindas.Where(a => a.MatriculaAluno == aluno.MatriculaAluno).ToList().Count == 0)
+            {
+                listaAlunosDistindas.Add(aluno);
+            }
+        }
+        var qtdAlunos = listaAlunosDistindas.Count();
         var viewModel = new DisciplinaViewModel() {
 			IdDisciplina = domain.IdDisciplina,
             DescricaoDisciplina = domain.DescricaoDisciplina,
-            Curso = curso.DescricaoCurso,
-            Professor = professor.Nome,
-            Alunos = listaAlunosViewModel
+            Curso = new CursoDisciplinaViewModel() { IdCurso = curso.IdCurso, DescricaoCurso = curso.DescricaoCurso },
+            Professor = new ProfessorDisciplinaViewModel() { IdProfessor = professor.IdProfessor, Nome = professor.Nome },
+            QuantidadeAlunos = qtdAlunos,
+            Alunos = listaNotas
 		};
 
 		return viewModel;
 	}
 }
-

@@ -8,6 +8,5 @@ public class CursoDto
 
 	public string DescricaoCurso { get; set; }
 
-	public List<DisciplinaDto> Disciplinas { get; set; }
 }
 

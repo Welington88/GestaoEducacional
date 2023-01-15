@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class DisciplinaService : IDisciplinaService
+public class DisciplinaService : Hub, IDisciplinaService
 {
 
     private readonly IConfiguration _configuration;
@@ -26,6 +27,7 @@ public class DisciplinaService : IDisciplinaService
         try
         {
             var listaDisciplinas = await _repository.Get();
+            listaDisciplinas = listaDisciplinas.OrderBy(d => d.DescricaoDisciplina ).ToList();
             return listaDisciplinas;
         }
         catch (Exception ex)
@@ -56,8 +58,9 @@ public class DisciplinaService : IDisciplinaService
                 return false;
             }
 
-             var Disciplina = await _repository.Post(disciplinaDTO);
-             return Disciplina;
+            disciplinaDTO.DescricaoDisciplina = disciplinaDTO.DescricaoDisciplina.Trim();
+            var Disciplina = await _repository.Post(disciplinaDTO);
+            return Disciplina;
         }
         catch (Exception ex)
         {
@@ -69,7 +72,7 @@ public class DisciplinaService : IDisciplinaService
     {
         try
         {
-        
+             disciplinaDTO.DescricaoDisciplina = disciplinaDTO.DescricaoDisciplina.Trim();
             var disciplina = await _repository.Put(id, disciplinaDTO);
             return disciplina;
             

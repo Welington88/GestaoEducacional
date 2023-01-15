@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class CursoService : ICursoService
+public class CursoService : Hub, ICursoService
 {
 
     private readonly IConfiguration _configuration;
@@ -26,6 +27,7 @@ public class CursoService : ICursoService
         try
         {
             var listaCursos = await _repository.Get();
+            listaCursos = listaCursos.OrderBy(c => c.DescricaoCurso).ToList();
             return listaCursos;
         }
         catch (Exception ex)
@@ -56,8 +58,9 @@ public class CursoService : ICursoService
                 return false;
             }
 
-             var curso = await _repository.Post(cursoDTO);
-             return curso;
+            cursoDTO.DescricaoCurso = cursoDTO.DescricaoCurso.Trim();
+            var curso = await _repository.Post(cursoDTO);
+            return curso;
         }
         catch (Exception ex)
         {

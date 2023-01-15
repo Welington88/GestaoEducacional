@@ -17,22 +17,69 @@ public static class CursoTransformation
 		return domain;
 	}
 
-    public static CursoViewModel GetViewModel(Curso domain, List<Disciplina> disciplinas) {
+    public static CursoViewModel GetViewModel(Curso domain, List<Disciplina> disciplinas, CursoAlunoDto cursoAlunoDto) {
 
         var listaDisciplinasViewModel = new List<string>();
+        disciplinas = disciplinas.Where(d=> d != null).ToList();
+        disciplinas = disciplinas.Where(d => d.IdCurso == domain.IdCurso).ToList();
+        int numeroProfessores = (int)0;
+        int numeroAlunos = (int)0;
+        float mediaCurso = (float)0;
 
-        foreach (var disciplina in disciplinas)
+        if (!(cursoAlunoDto is null))
         {
-            listaDisciplinasViewModel.Add(disciplina.DescricaoDisciplina);
+            numeroProfessores = cursoAlunoDto.QtdProfessores;
+            numeroAlunos = cursoAlunoDto.QtdAlunos;
+            mediaCurso = cursoAlunoDto.MediaAlunos;
         }
 
-        var viewModel = new CursoViewModel() {
-			IdCurso = domain.IdCurso,
-            DescricaoCurso = domain.DescricaoCurso,
-            Disciplinas = listaDisciplinasViewModel
-		};
+        if (disciplinas.Count > 0)
+        {
+            foreach (var disciplina in disciplinas)
+            {
+                if (!(disciplina is null))
+                {
+                    listaDisciplinasViewModel.Add(disciplina.DescricaoDisciplina);
+                }
+            }
 
-		return viewModel;
+            var viewModel = new CursoViewModel()
+            {
+                IdCurso = domain.IdCurso,
+                DescricaoCurso = domain.DescricaoCurso,
+                NumeroProfessores = numeroProfessores,
+                NumeroAlunos = numeroAlunos,
+                MediaCurso = mediaCurso,
+                Disciplinas = listaDisciplinasViewModel
+
+            };
+  
+            return viewModel;
+        }
+        else
+        {
+            CursoViewModel resultViewModel;
+
+            if (!(domain is null))
+            {
+               resultViewModel =  new CursoViewModel()
+                {
+                    IdCurso = domain.IdCurso,
+                    DescricaoCurso = domain.DescricaoCurso,
+                    NumeroProfessores = numeroProfessores,
+                    NumeroAlunos = numeroAlunos,
+                    MediaCurso = mediaCurso,
+                    Disciplinas = listaDisciplinasViewModel
+                };
+            }
+            else
+            {
+                resultViewModel = new CursoViewModel();
+            }
+
+            return resultViewModel;
+        }
+        
 	}
 }
 

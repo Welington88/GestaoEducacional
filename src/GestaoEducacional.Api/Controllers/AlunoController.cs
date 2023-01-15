@@ -1,6 +1,7 @@
 using GestaoEducacional.Application.Interfaces;
 using GestaoEducacional.CC.Dto.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Swashbuckle.AspNetCore.Annotations;
 namespace GestaoEducacional.Api.Controllers;
 
@@ -28,7 +29,7 @@ public class AlunoController : ControllerBase
     [SwaggerResponse(400, @"Erro ao retornar dados.")]
     [SwaggerResponse(500, @"Erro")]
     [Route("Lista")]
-    public async Task<ActionResult> ListaTodasAsAlunos()
+    public async Task<ActionResult> ListaTodasOsAlunos()
     {
         try
         {
@@ -58,7 +59,10 @@ public class AlunoController : ControllerBase
         try
         {
             var viewModel = await _AlunoService.GetId(numeroMatricula);
-
+            if (viewModel.Nome is null)
+            {
+                return NotFound("Not Found");
+            }
             _logger.LogInformation(1, "[API] [Aluno] [GET] [SUCESSO].");
             return Ok(viewModel);
         }

@@ -1,0 +1,67 @@
+<h1>Alunos</h1><br/>
+<hr/>
+<section>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-10">
+            <h2>{{formLabel}}</h2><br/>
+            <form (ngSubmit)="submit()" #formDir="ngForm" [formGroup]= "form">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-1">Nome: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <input class="form-control" type="text" formControlName= "nome" required>
+                            <div *ngIf="nome.invalid && formDir.submitted" class="validation-error">
+                                <p *ngIf="nome.errors?.['required']">o nome é obrigatório. </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-1">Data Nascimento: </label>
+                        <div class="col-xs-12 col-sm-6">
+                            <input class="form-control" type="date" formControlName= "dataNascimento" required>
+                            <div *ngIf="dataNascimento.invalid && formDir.submitted" class="validation-error">
+                                <p *ngIf="nome.errors?.['required']">o Data Nascimento é obrigatório. </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer col-xs-12 col-sm-3">
+                        <button type="submit" class="btn btn-primary" (onSubmit)="send($event)">Salvar</button>&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</section>
+<hr/>
+<table class='table table-striped table-bordered table-condensed table-hover' *ngIf="alunos.length">
+    <thead class="thead-dark">
+        <tr class="table-light">
+            <td scope="col">Matricula</td>
+            <td scope="col">Nome</td>
+            <td scope="col">Nascimento</td>
+            <td scope="col">Notas</td>
+            <td scope="col">Editar Aluno</td>
+            <td scope="col">Excluir Aluno</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = 'let aluno of alunos;'>
+            <td class="align-middle" scope="row"> {{aluno.matriculaAluno}}</td>
+            <td class="align-middle" scope="row"> {{aluno.nome}}</td>
+            <td class="align-middle" scope="row"> {{aluno.dataNascimento}}</td>
+            <td class="align-middle" scope="row"> 
+                <div *ngFor = 'let nota of aluno.notas;'>
+                    {{nota.disciplina}} => 
+                    {{nota.valorNota}}
+                </div>
+            </td>
+            <td class="align-middle" scope="row"><button class="btn btn btn-success" (click)="edit(aluno)">Editar</button>&nbsp;&nbsp; </td>
+            <td class="align-middle" scope="row"><button class="btn btn-danger" (click)="delete(aluno)">Delete</button>&nbsp;&nbsp; </td>
+        </tr>
+    </tbody>
+</table>
+<br/>       

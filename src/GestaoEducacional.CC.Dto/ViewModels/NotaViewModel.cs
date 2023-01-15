@@ -6,9 +6,9 @@ public class NotaViewModel
 {
     public int IdNota { get; set; }
 
-    public string Disciplina { get; set; }
+    public DisciplinaNotaViewModel Disciplina { get; set; }
 
-    public string Aluno { get; set; }
+    public AlunoNotaViewModel Aluno { get; set; }
 
     public float ValorNota { get; set; }
 }

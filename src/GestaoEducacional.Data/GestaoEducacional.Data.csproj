@@ -18,6 +18,7 @@
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.Extensions.Logging" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="Dapper" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mappings\" />
@@ -38,9 +39,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Dapper" Version="2.0.123" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApiPayment.CC.Dto\GestaoEducacional.CC.Dto.csproj" />
+    <ProjectReference Include="..\GestaoEducacional.CC.Dto\GestaoEducacional.CC.Dto.csproj" />
     <ProjectReference Include="..\GestaoEducacional.Domain\GestaoEducacional.Domain.csproj" />
   </ItemGroup>
 </Project>

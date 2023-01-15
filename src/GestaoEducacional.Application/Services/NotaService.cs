@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class NotaService : INotaService
+public class NotaService : Hub, INotaService
 {
 
     private readonly IConfiguration _configuration;
@@ -26,6 +27,7 @@ public class NotaService : INotaService
         try
         {
             var listaNotas = await _repository.Get();
+            listaNotas = listaNotas.OrderBy(n => n.Aluno.Nome).ToList();
             return listaNotas;
         }
         catch (Exception ex)
@@ -56,8 +58,13 @@ public class NotaService : INotaService
                 return false;
             }
 
-             var nota = await _repository.Post(notaDTO);
-             return nota;
+            if (notaDTO.ValorNota < 0)
+            {
+                return false;
+            }
+            
+            var nota = await _repository.Post(notaDTO);
+            return nota;
         }
         catch (Exception ex)
         {
@@ -69,7 +76,10 @@ public class NotaService : INotaService
     {
         try
         {
-        
+            if (notaDTO.ValorNota < 0)
+            {
+                return false;
+            }
             var nota = await _repository.Put(id, notaDTO);
             return nota;
             

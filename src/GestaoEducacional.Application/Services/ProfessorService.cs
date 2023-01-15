@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class ProfessorService : IProfessorService
+public class ProfessorService : Hub, IProfessorService
 {
 
     private readonly IConfiguration _configuration;
@@ -26,6 +27,7 @@ public class ProfessorService : IProfessorService
         try
         {
             var listaProfessores = await _repository.Get();
+            listaProfessores = listaProfessores.OrderBy(p => p.Nome).ToList();
             return listaProfessores;
         }
         catch (Exception ex)
@@ -56,8 +58,9 @@ public class ProfessorService : IProfessorService
                 return false;
             }
 
-             var Professor = await _repository.Post(professorDTO);
-             return Professor;
+            professorDTO.Nome = professorDTO.Nome.Trim();
+            var Professor = await _repository.Post(professorDTO);
+            return Professor;
         }
         catch (Exception ex)
         {
@@ -69,7 +72,7 @@ public class ProfessorService : IProfessorService
     {
         try
         {
-        
+            professorDTO.Nome = professorDTO.Nome.Trim();
             var Professor = await _repository.Put(id, professorDTO);
             return Professor;
             

@@ -2,12 +2,13 @@
 using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Domain.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GestaoEducacional.Application.Services;
 
-public class AlunoService : IAlunoService
+public class AlunoService : Hub , IAlunoService
 {
 
     private readonly IConfiguration _configuration;
@@ -26,6 +27,7 @@ public class AlunoService : IAlunoService
         try
         {
             var listaAlunos = await _repository.Get();
+            listaAlunos = listaAlunos.OrderBy(a => a.Nome).ToList();
             return listaAlunos;
         }
         catch (Exception ex)
@@ -55,9 +57,9 @@ public class AlunoService : IAlunoService
             {
                 return false;
             }
-
-             var Aluno = await _repository.Post(alunoDTO);
-             return Aluno;
+            alunoDTO.Nome = alunoDTO.Nome.Trim();
+            var Aluno = await _repository.Post(alunoDTO);
+            return Aluno;
         }
         catch (Exception ex)
         {
@@ -69,7 +71,7 @@ public class AlunoService : IAlunoService
     {
         try
         {
-        
+            alunoDTO.Nome = alunoDTO.Nome.Trim();
             var Aluno = await _repository.Put(matricula, alunoDTO);
             return Aluno;
             

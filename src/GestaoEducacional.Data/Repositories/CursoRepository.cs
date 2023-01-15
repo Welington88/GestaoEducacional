@@ -1,4 +1,5 @@
-﻿using GestaoEducacional.CC.Dto.DTOs;
+﻿using Dapper;
+using GestaoEducacional.CC.Dto.DTOs;
 using GestaoEducacional.CC.Dto.ViewModels;
 using GestaoEducacional.Data.Contexts;
 using GestaoEducacional.Domain.DTOs;
@@ -24,19 +25,73 @@ public class CursoRepository : ICursoRepository
     {
         try
         {
-            var listaCursos = await _context.Cursos
-                .Include(c => c.Disciplina)
-                .Where(d => d.Disciplina.Select(e => e.IdCurso == d.IdCurso).FirstOrDefault())
-                .ToListAsync();
-            
             var listaCursosViewModel = new List<CursoViewModel>();
-            foreach (var curso in listaCursos)
+           
+            var listaCursos =   from cursos in _context.Set<Curso>()
+                                join disciplinas in _context.Set<Disciplina>()
+                                    on cursos.IdCurso equals disciplinas.IdCurso into grouping
+                                from disciplinas in grouping.DefaultIfEmpty()
+                                select new { cursos, disciplinas };
+
+            listaCursos = listaCursos.Distinct();
+            foreach (var curso in listaCursos.ToList())
             {
-                var CursoViewModel = CursoTransformation.GetViewModel(curso, curso.Disciplina.ToList());
-                listaCursosViewModel.Add(CursoViewModel);
+                #region Query
+
+                var queryAluno = @"SELECT  c.IdCurso,  c.DescricaoCurso , 
+                                count( DISTINCT n.MatriculaAluno) as QtdAlunos,  avg(n.ValorNota) as MediaAlunos From
+                                (
+		                                (
+			                                Cursos  c INNER JOIN Disciplinas d
+				                                ON (c.IdCurso = d.IdCurso)
+		                                )
+	                                INNER JOIN Notas n
+		                                ON(d.IdDisciplina =  n.Disciplina)
+                                )
+                                WHERE d.IdCurso = :IdCurso
+                                GROUP BY d.IdCurso";
+
+                var queryProfessor = @"SELECT  c.IdCurso,  c.DescricaoCurso ,   count( DISTINCT p.IdProfessor) as  QtdProfessores From
+                                (
+		                                (
+			                                Cursos  c INNER JOIN Disciplinas d
+				                                ON (c.IdCurso = d.IdCurso)
+		                                )
+		                                INNER JOIN Professores p 
+			                                ON( d.IdProfessor = p.IdProfessor) 
+                                )
+                                WHERE c.IdCurso = :IdCurso
+                                GROUP BY c.IdCurso
+                                ;";
+                #endregion
+
+                var parameters = new { IdCurso = curso.cursos.IdCurso };
+                CommandDefinition command = new CommandDefinition(queryAluno, parameters);
+                var quantCursoProfAluno = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
+
+                command = new CommandDefinition(queryProfessor, parameters);
+                var quantProfessores = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
+                if (!(quantProfessores is null) && !(quantCursoProfAluno is null))
+                {
+                    quantCursoProfAluno.QtdProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
+
+                var cursoViewModel = CursoTransformation.GetViewModel(curso.cursos, listaCursos.Select(c => c.disciplinas).ToList(), quantCursoProfAluno);
+                if (!(quantProfessores is null))
+                {
+                    if (cursoViewModel.NumeroProfessores != quantProfessores.QtdProfessores)
+                    {
+                        cursoViewModel.NumeroProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                    }
+                }
+                var validarAdd = listaCursosViewModel.Where(c => c.IdCurso == cursoViewModel.IdCurso).ToList().Count();
+                if (validarAdd == 0)
+                {
+                    listaCursosViewModel.Add(cursoViewModel);
+                }
             }
-                
-            return listaCursosViewModel;
+            
+            return await Task.FromResult(listaCursosViewModel);
         }
         catch (Exception ex)
         {
@@ -48,16 +103,70 @@ public class CursoRepository : ICursoRepository
     {
         try
         {
-            var cursosResult = await _context.Cursos
-                .Include(c => c.Disciplina)
-                .Where(d => d.Disciplina.Select(e => e.IdCurso == d.IdCurso).FirstOrDefault())
-                .Where(c => c.IdCurso == id)
-                .ToListAsync();
-
+            var cursoBase =  await _context.Cursos.Where(c => c.IdCurso == id).ToListAsync();
+            if (cursoBase.Count == 0)
+            {
+                return new CursoViewModel();
+            }
+            var curso =  from cursos in _context.Set<Curso>()
+                               join disciplinas in _context.Set<Disciplina>()
+                                    on cursos.IdCurso equals disciplinas.IdCurso into grouping
+                                from disciplinas in grouping.DefaultIfEmpty()
+                                where cursos.IdCurso == id
+                                select new { cursos, disciplinas };
+            
             var listaCursosViewModel = new List<CursoViewModel>();
+            #region Query
+            var queryAluno = @"SELECT  c.IdCurso,  c.DescricaoCurso , 
+                                count( DISTINCT n.MatriculaAluno) as QtdAlunos,  avg(n.ValorNota) as MediaAlunos From
+                                (
+		                                (
+			                                Cursos  c INNER JOIN Disciplinas d
+				                                ON (c.IdCurso = d.IdCurso)
+		                                )
+	                                INNER JOIN Notas n
+		                                ON(d.IdDisciplina =  n.Disciplina)
+                                )
+                                WHERE d.IdCurso = :IdCurso
+                                GROUP BY d.IdCurso";
 
-            var CursosViewModel = CursoTransformation.GetViewModel(cursosResult.FirstOrDefault(), cursosResult.FirstOrDefault().Disciplina.ToList());
-            return CursosViewModel;
+            var queryProfessor = @"SELECT  c.IdCurso,  c.DescricaoCurso ,   count( DISTINCT p.IdProfessor) as  QtdProfessores From
+                                (
+		                                (
+			                                Cursos  c INNER JOIN Disciplinas d
+				                                ON (c.IdCurso = d.IdCurso)
+		                                )
+		                                INNER JOIN Professores p 
+			                                ON( d.IdProfessor = p.IdProfessor) 
+                                )
+                                WHERE c.IdCurso = :IdCurso
+                                GROUP BY c.IdCurso
+                                ;";
+            #endregion
+
+            var parameters = new { IdCurso = id};
+            CommandDefinition command = new CommandDefinition(queryAluno, parameters);
+            var quantCursoProfAluno = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
+
+            command = new CommandDefinition(queryProfessor, parameters);
+            var quantProfessores = _context.Database.GetDbConnection().Query<CursoAlunoDto>(command).FirstOrDefault();
+            if (!(quantProfessores is null))
+            {
+                if (!(quantProfessores is null) && !(quantCursoProfAluno is null))
+                {
+                    quantCursoProfAluno.QtdProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
+            }
+
+            var cursosViewModel = CursoTransformation.GetViewModel(curso.Select(c => c.cursos).FirstOrDefault(), curso.Select(d => d.disciplinas).ToList(), quantCursoProfAluno);
+            if (!(quantProfessores is null))
+            {
+                if (cursosViewModel.NumeroProfessores != quantProfessores.QtdProfessores && quantProfessores != null)
+                {
+                    cursosViewModel.NumeroProfessores = quantProfessores is null ? 0 : quantProfessores.QtdProfessores;
+                }
+            }
+            return await Task.FromResult(cursosViewModel);
         }
         catch (Exception ex)
         {
@@ -65,12 +174,11 @@ public class CursoRepository : ICursoRepository
         }
     }
 
-    public async Task<bool> Post(CursoDto CursoDTO)
+    public async Task<bool> Post(CursoDto cursoDTO)
     {
         try
         {
-            var listaCursos = await _context.Cursos.ToListAsync();
-            var CursosDomain = CursoTransformation.GetDomain(CursoDTO);
+            var CursosDomain = CursoTransformation.GetDomain(cursoDTO);
 
             await _context.Cursos.AddAsync(CursosDomain);
             var result = _context.SaveChangesAsync();
@@ -87,17 +195,18 @@ public class CursoRepository : ICursoRepository
         }
     }
 
-    public async Task<bool> Put(int id, CursoDto CursoDTO)
+    public async Task<bool> Put(int id, CursoDto cursoDTO)
     {
         try
         {
-            var CursoBase = GetId(id);
-            if (CursoBase is null || CursoDTO.IdCurso != id)
+            cursoDTO.IdCurso = id;
+            var cursoBase = GetId(id);
+            if (cursoBase is null || cursoDTO.IdCurso != id)
             {
                 return false;
             }
             
-            var CursoUpdate = CursoTransformation.GetDomain(CursoDTO);
+            var CursoUpdate = CursoTransformation.GetDomain(cursoDTO);
             _context.ChangeTracker.Clear();
             _context.Cursos.Update(CursoUpdate);
             var result = await _context.SaveChangesAsync();

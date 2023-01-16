@@ -1,27 +1,28 @@
-# GestaoEducacional.View
+# GestaoEducacional
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
+# Para excutar o projeto é necessário ter instalados:
+## sdk do .net7 instalado na máquina
+- Para verificar se o `sdk do .net7` está instaldo digite no `cmd` do `windows dotnet --list-sdks`
+- link da miscrosoft instalar o .net7 [.net 7 sdk](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) version 7.0.1
 
-## Development server
+<img width="277" alt="Screenshot 2023-01-16 090352" src="https://user-images.githubusercontent.com/51893051/212675176-b1cf5756-8122-42f8-81ba-c0ece8ca5e73.png">
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## runtime do .net runtime instalado na máquina  
+- Para verificar se o `.net runtime` está instaldo digite no `cmd` do windows `dotnet --list-runtimes`
+- link da miscrosoft instalar o .net7 [.net 7 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) version 7.0.1
 
-## Code scaffolding
+<img width="566" alt="Screenshot 2023-01-16 090512" src="https://user-images.githubusercontent.com/51893051/212675291-46f32eef-5e3a-4d6a-9a5f-8f60de55a304.png">
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## node.js do .net runtime do .net instalado na máquina
+- Para verificar se node.js está instaldo digite no `cmd` do windows `node --version`
+- link da miscrosoft instalar o .net7 [node.js](https://nodejs.org/en/download/) version 7.0.1
 
-## Build
+<img width="314" alt="Screenshot 2023-01-16 090623" src="https://user-images.githubusercontent.com/51893051/212675416-d4644167-b81d-4ead-9103-830601583b2f.png">
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Para executar o projeto 
+- Apenas dar click sobre o arquivo `startup.bat` ele iria compilar o projeto, pode demorar um pouco na 1ª vez.
+- Peço para abrir no navegador google chrome onde foi feito os testes.
 
-## Running unit tests
+<img width="545" alt="Screenshot 2023-01-16 091322" src="https://user-images.githubusercontent.com/51893051/212675769-eca604a4-1d76-469d-b0eb-dc3716b3790a.png">
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+<img width="881" alt="Screenshot 2023-01-16 091708" src="https://user-images.githubusercontent.com/51893051/212676414-fb3228d2-10d0-49a9-a7aa-d018392943cb.png">

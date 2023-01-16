@@ -7,13 +7,17 @@
 
 <img width="277" alt="Screenshot 2023-01-16 090352" src="https://user-images.githubusercontent.com/51893051/212675176-b1cf5756-8122-42f8-81ba-c0ece8ca5e73.png">
 
-## runtime do .net runtime instalado na máquina  
+## runtime do .net instalado na máquina  
 - Para verificar se o `.net runtime` está instaldo digite no `cmd` do windows `dotnet --list-runtimes`
 - link da miscrosoft instalar o .net7 [.net 7 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) version 7.0.1
 
 <img width="566" alt="Screenshot 2023-01-16 090512" src="https://user-images.githubusercontent.com/51893051/212675291-46f32eef-5e3a-4d6a-9a5f-8f60de55a304.png">
 
-## node.js do .net runtime do .net instalado na máquina
+## node.js instalado na máquina
+- Para verificar se node.js está instaldo digite no `cmd` do windows `node --version`
+- link da miscrosoft instalar o .net7 [node.js](https://nodejs.org/en/download/) version 7.0.1
+
+## node.js instalado na máquina
 - Para verificar se node.js está instaldo digite no `cmd` do windows `node --version`
 - link da miscrosoft instalar o .net7 [node.js](https://nodejs.org/en/download/) version 7.0.1
 
